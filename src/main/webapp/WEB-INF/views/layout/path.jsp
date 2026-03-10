@@ -1,0 +1,1 @@
+<c:set var="base" value="${pageContext.request.contextPath}" />

@@ -8,11 +8,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter("/*")
-public class AuthenticationFilter implements Filter {
+public class WebAuthenticationFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println("AuthenticationFilter initialized");
+        System.out.println("WebAuthenticationFilter initialized");
     }
 
     @Override
@@ -62,6 +62,6 @@ public class AuthenticationFilter implements Filter {
 
     @Override
     public void destroy() {
-        System.out.println("AuthenticationFilter destroyed");
+        System.out.println("WebAuthenticationFilter destroyed");
     }
 }

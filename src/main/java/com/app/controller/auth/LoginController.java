@@ -1,4 +1,4 @@
-package com.app.controller;
+package com.app.controller.auth;
 
 import com.app.dao.UserDAO;
 import com.app.model.User;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/login")
-public class AuthController extends HttpServlet {
+public class LoginController extends HttpServlet {
 
     private UserDAO userDAO;
 

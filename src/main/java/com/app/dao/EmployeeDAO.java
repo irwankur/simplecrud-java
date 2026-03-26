@@ -99,13 +99,12 @@ public class EmployeeDAO {
     }
 
     public boolean deleteEmployee(String employeeId, String positionId) {
-        String sql = "DELETE FROM employees WHERE employee_id = ? AND position_id = ?";
+        String sql = "DELETE FROM employees WHERE employee_id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, employeeId);
-            stmt.setString(2, positionId);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();

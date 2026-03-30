@@ -31,7 +31,7 @@
         </div>
     <% } %>
 
-    <form action="employees" method="post">
+    <form action="employees" method="post" enctype="multipart/form-data">
 
         <input type="hidden" name="action" value="<%= action %>">
 
@@ -50,13 +50,20 @@
 
             <div class="card-body">
 
-                <div class="form-group">
-                    <label>Employee ID *</label>
-                    <input type="text"
-                           name="employeeId"
-                           class="form-control"
-                           value="<%= employee != null ? employee.getEmployeeId() : "" %>"
-                           required>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Foto</label>
+                        <input type="file" name="foto" class="form-control" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Employee ID *</label>
+                        <input type="text"
+                               name="employeeId"
+                               class="form-control"
+                               value="<%= employee != null ? employee.getEmployeeId() : "" %>"
+                                <%= isEditMode ? "disabled" : "" %>
+                               required>
+                    </div>
                 </div>
 
                 <div class="form-row">

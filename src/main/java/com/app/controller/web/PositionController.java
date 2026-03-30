@@ -127,16 +127,12 @@ public class PositionController extends HttpServlet {
             User user = (User) request.getSession().getAttribute("user");
             position.setCreatedBy(user.getUserId());
 
-            boolean success = positionDAO.createPosition(position);
+            positionDAO.createPosition(position);
 
-            if (success) {
-                response.sendRedirect("positions?message=Position created successfully");
-            } else {
-                request.setAttribute("error", "Failed to create position");
-                request.getRequestDispatcher("/WEB-INF/views/position/form.jsp").forward(request, response);
-            }
+            response.sendRedirect("positions?message=Position created successfully");
+
         } catch (Exception e) {
-            request.setAttribute("error", "Invalid date format");
+            request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("/WEB-INF/views/position/form.jsp").forward(request, response);
         }
     }

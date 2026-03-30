@@ -12,7 +12,7 @@
             Position Management
         </h1>
 
-        <a href="employees?action=new"
+        <a href="positions?action=new"
            class="btn btn-primary btn-sm shadow-sm">
 
             <i class="fas fa-plus fa-sm text-white-50"></i>

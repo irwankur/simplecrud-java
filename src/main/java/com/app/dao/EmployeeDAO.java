@@ -66,10 +66,9 @@ public class EmployeeDAO {
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e){
-            e.printStackTrace();
+            throw new RuntimeException("Failed to insert employee" + e.getMessage(), e);
         }
 
-        return false;
     }
 
     public boolean updateEmployee(Employee employee){

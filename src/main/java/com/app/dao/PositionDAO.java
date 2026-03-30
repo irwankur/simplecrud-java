@@ -61,9 +61,8 @@ public class PositionDAO {
             return stmt.executeUpdate() > 0;
         } catch (SQLException e){
             e.printStackTrace();
+            throw new RuntimeException("Failed to insert position : " + e.getMessage(), e);
         }
-
-        return false;
     }
 
     public boolean updatePosition(Position position){

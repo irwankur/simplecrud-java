@@ -5,18 +5,20 @@ import com.app.model.Employee;
 import com.app.model.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.UUID;
 
 @WebServlet("/employees")
+@MultipartConfig
 public class EmployeeController extends HttpServlet {
 
     private EmployeeDAO employeeDAO;
@@ -111,6 +113,32 @@ public class EmployeeController extends HttpServlet {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
+
+            Part filePart = request.getPart("foto");
+
+            String fileName = null;
+
+            if (filePart != null && filePart.getSize() > 0) {
+
+                // ambil nama file original + bersihkan path
+                String originalFileName = Paths.get(filePart.getSubmittedFileName())
+                        .getFileName()
+                        .toString();
+
+                fileName = UUID.randomUUID() + "_" + originalFileName;
+
+                String uploadPath = "D:/APPS/STORAGE/SIMPLECRUD/profil";
+
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) uploadDir.mkdirs();
+
+                filePart.write(uploadPath + File.separator + fileName);
+            }
+
+            if (filePart == null || filePart.getSize() == 0) {
+                System.out.println("File kosong!");
+            }
+
             Employee employee = new Employee();
             employee.setEmployeeId(request.getParameter("employeeId"));
             employee.setFirstName(request.getParameter("firstName"));
@@ -126,17 +154,20 @@ public class EmployeeController extends HttpServlet {
             User user = (User) request.getSession().getAttribute("user");
             employee.setCreatedBy(user.getUserId());
 
-            boolean success = employeeDAO.createEmployee(employee);
+            employeeDAO.createEmployee(employee);
 
-            if (success) {
-                response.sendRedirect("employees?message=Employee Created Successfully");
-            } else {
-                request.setAttribute("error", "Invalid date format");
-                request.getRequestDispatcher("/WEB-INF/views/employee/form.jsp").forward(request, response);
-            }
+            response.sendRedirect("employees?message=Employee Created Successfully");
+
         } catch (ParseException e){
+
             request.setAttribute("error", "Invalid date format");
             request.getRequestDispatcher("/WEB-INF/views/employee/form.jsp");
+
+        } catch (RuntimeException e) {
+
+            request.setAttribute("error", "Failed to insert employee: " + e.getMessage());
+            request.getRequestDispatcher("/WEB-INF/views/employee/form.jsp")
+                    .forward(request, response);
         }
 
     }

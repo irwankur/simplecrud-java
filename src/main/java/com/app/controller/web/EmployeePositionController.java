@@ -173,14 +173,9 @@ public class EmployeePositionController extends HttpServlet {
                         .forward(request, response);
             }
 
-        } catch (RecordException e) {
-            request.setAttribute("error", e.getMessage());
-            request.getRequestDispatcher("/WEB-INF/views/employeePosition/form.jsp")
-                    .forward(request, response);
-
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Terjadi kesalahan sistem.");
+            request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("/WEB-INF/views/employeePosition/form.jsp")
                     .forward(request, response);
         }

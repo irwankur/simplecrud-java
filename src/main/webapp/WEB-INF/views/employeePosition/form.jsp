@@ -62,7 +62,7 @@
                     <div class="form-group col-md-6">
                         <label>Employee</label>
 
-                        <select name="employeeId" class="form-control" required>
+                        <select name="employeeId" class="form-control" required  <%= isEditMode ? "disabled" : "" %> >
 
                             <option value="">-- Select Employee --</option>
 
@@ -88,7 +88,7 @@
                     <div class="form-group col-md-6">
                         <label>Position</label>
 
-                        <select name="positionId" class="form-control" required>
+                        <select name="positionId" class="form-control"  <%= isEditMode ? "disabled" : "" %> required>
 
                             <option value="">-- Select Position --</option>
 

@@ -13,7 +13,22 @@ public class EmployeePositionDAO {
 
     public List<EmployeePosition> getAllEmployeePosition(){
         List<EmployeePosition> employeePositions = new ArrayList<>();
-        String sql = "SELECT * FROM employee_positions ORDER BY employee_id DESC";
+        String sql = "select " +
+                " ep.employee_id, " +
+                " concat(e.first_name, ' ' , e.last_name), " +
+                " ep.position_id, " +
+                " p.name, " +
+                " ep.valid_from, " +
+                " ep.valid_to  " +
+                "from " +
+                " employee_positions ep, " +
+                " employees e, " +
+                " positions p " +
+                "where   " +
+                " ep.employee_id = e.employee_id  " +
+                " and ep.position_id = p.position_id  " +
+                "order by " +
+                " ep.employee_id desc";
 
         try (Connection conn = DatabaseConfig.getConnection();
              Statement stmt = conn.createStatement();
@@ -67,13 +82,8 @@ public class EmployeePositionDAO {
 
             return stmt.executeUpdate() > 0;
 
-        } catch (SQLIntegrityConstraintViolationException e) {
-
-            throw new RecordException("Employee dan Position sudah terdaftar atau tidak valid.");
-
         } catch (SQLException e) {
-
-            throw new RecordException("Terjadi kesalahan database: " + e.getMessage());
+            throw new RecordException("Failed to insert employee position : " + e.getMessage());
         }
     }
 

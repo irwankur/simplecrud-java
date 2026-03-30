@@ -50,6 +50,7 @@
                            name="positionId"
                            class="form-control"
                            value="<%= position != null ? position.getPositionId() : "" %>"
+                           <%= isEditMode ? "disabled" : "" %>
                            required>
                 </div>
 
